@@ -1,0 +1,12 @@
+{
+  "name": "暖程陪诊", "appid": "", "description": "CareAlong 暖程陪诊，就医路上，暖心相伴。当前为虚构数据演示原型。",
+  "versionName": "0.1.0", "versionCode": "10", "transformPx": false, "vueVersion": "3",
+  "app-plus": {
+    "usingComponents": true, "nvueStyleCompiler": "uni-app", "compilerVersion": 3,
+    "splashscreen": { "alwaysShowBeforeRender": true, "waiting": true, "autoclose": true, "delay": 0 },
+    "modules": {}, "distribute": { "android": { "permissions": [] }, "ios": {}, "sdkConfigs": {} }
+  },
+  "mp-weixin": { "appid": "", "setting": { "urlCheck": true }, "usingComponents": true },
+  "h5": { "title": "暖程陪诊 CareAlong · 流程演示", "router": { "mode": "hash" } },
+  "uniStatistics": { "enable": false }
+}

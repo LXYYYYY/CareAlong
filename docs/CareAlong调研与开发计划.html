@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>暖程陪诊 CareAlong 调研与开发计划</title>
+<style>
+:root{--ink:#203343;--muted:#657781;--accent:#087c79;--line:#dce6e8;--paper:#fff;--bg:#f2f6f6}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 system-ui,"Microsoft YaHei",sans-serif}main{max-width:1120px;margin:32px auto;background:var(--paper);padding:52px 64px;border-radius:18px}h1{font-size:34px;line-height:1.4;margin:0 0 12px}h2{font-size:24px;margin:42px 0 16px;padding-top:12px;border-top:2px solid var(--line)}h3{font-size:18px;margin:26px 0 8px}p{margin:12px 0}a{color:var(--accent)}small,.muted{color:var(--muted)}.lead{font-size:19px}.callout{background:#edf8f5;border-left:4px solid var(--accent);padding:18px 22px;margin:22px 0}.chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.chips span{background:#eef2f5;border-radius:20px;padding:4px 12px;font-size:14px}table{width:100%;border-collapse:collapse;font-size:14px;margin:18px 0}th,td{text-align:left;vertical-align:top;border:1px solid var(--line);padding:11px 13px}th{background:#edf3f4}li{margin:7px 0}code{background:#f0f3f5;padding:2px 5px;border-radius:4px;font-size:.9em}pre{white-space:pre-wrap;background:#203343;color:#edf8f5;padding:22px;border-radius:8px;line-height:1.7;font-size:14px}nav{display:flex;gap:10px 18px;flex-wrap:wrap;margin:22px 0;font-size:14px}.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0}.flow span{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#f7faf9}.flow b{color:var(--accent)}.print{float:right;border:1px solid var(--line);background:white;border-radius:8px;padding:9px 15px;color:var(--ink);cursor:pointer}@media(max-width:750px){main{padding:25px 18px;margin:0;border-radius:0}h1{font-size:28px}table{display:block;overflow-x:auto}th,td{min-width:110px}.print{float:none;margin-bottom:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}.print,nav{display:none}h2,h3{break-after:avoid}tr,.callout{break-inside:avoid}a{color:inherit}}
+</style></head><body><main>
+<button class="print" onclick="window.print()">打印或另存为 PDF</button>
+<p class="muted">规划日期 2026年10月8日 · 第一版方案 · 基于桌面小程序页面调研</p>
+<h1>暖程陪诊 CareAlong 调研与开发计划</h1>
+<p class="muted">品牌简称：暖程 · 英文名：CareAlong · 宣传语：就医路上，暖心相伴。</p>
+<p class="lead">零基础、一个人借助 AI 开发、每周投入30小时。采用 uni-app 支持微信小程序与 Android，以“用户选人预约 → 管理员审核 → 服务人员确认 → 完成服务”为第一版核心流程。</p>
+<div class="chips"><span>普通用户</span><span>服务人员</span><span>管理员</span><span>音视频暂不开发</span><span>支付形态待定</span><span>后续支持 iOS</span></div>
+<nav><a href="#findings">页面调研</a><a href="#scope">第一版范围</a><a href="#flow">订单规则</a><a href="#architecture">开发架构</a><a href="#data">数据设计</a><a href="#plan">实施计划</a><a href="#acceptance">验收标准</a><a href="#next">近期准备</a></nav>
+<div class="callout"><strong>建议先交付的产品：</strong>一个城市内，用户可浏览已审核的陪诊师、选择医院院区和时段、提交预约；管理员审核；指定陪诊师确认；双方沟通并完成服务；用户评价。先完成可试用的业务闭环，再扩展医院代办、照护和营销。第一版范围属于规划建议，尚未作为最终需求冻结。</div>
+
+<h2 id="findings">一 页面调研结果</h2>
+<p>参考应用为当前电脑打开的“晓棉袄陪诊”。本次查看了登录后的个人中心、预约成员及空白新建表单、消息与互动消息、首页人员推荐、人员列表、人员详情、三类服务预约表单、日期时段及医院选择弹层；结合此前查看的订单列表整理如下。仅记录产品功能，不保存账号手机号、就诊资料或人员照片。</p>
+<table><thead><tr><th>模块</th><th>实际观察</th><th>对我们开发的影响</th></tr></thead><tbody>
+<tr><td>首页</td><td>城市切换、服务分类、套餐、评价、医院与人员推荐。</td><td>突出“找陪诊师”；首页推荐和人员列表共用数据源。</td></tr>
+<tr><td>人员列表</td><td>城市、姓名搜索；卡片包含头像、等级或资质标签、累计服务、预约入口；有列表与地图切换入口。</td><td>第一版加入服务医院、服务类型和可预约日期筛选；地图模式不作为上线前置。</td></tr>
+<tr><td>人员详情</td><td>资质、擅长领域、从业年数、订单量、评分、简介、三类服务入口、评价和案例入口。</td><td>保留资料、服务范围、可约时段、评价；评分与订单量由真实业务产生，无评价时显示“暂无评价”。</td></tr>
+<tr><td>就医陪诊</td><td>看病、输液、手术、急诊日夜间、外语、检查、孕妈等子类型；当前卡片显示4小时。</td><td>采用“服务项目＋时长＋价格”配置，第一版只上线已准备好履约的一两项。</td></tr>
+<tr><td>医院代办</td><td>取药送药、代取报告、办理入院、办理出院；当前显示1小时，表单有寄送项。</td><td>后续需要地址、交付和寄送信息，不能只改陪诊服务名称。</td></tr>
+<tr><td>照护</td><td>专业陪护，当前显示24小时；增加患者情况、自理能力。</td><td>后续独立处理跨天占用、交班和照护需求，避免第一版范围过大。</td></tr>
+<tr><td>预约</td><td>指定人员、预约成员、日期、医院、病情描述、附件；语言和性别偏好；接送附加项；知情同意入口。</td><td>指定人员后展示其实际能力；价格由服务端计算并保存快照。资料按业务必要性采集。</td></tr>
+<tr><td>时间选择</td><td>日期和小时网格、可约／不可约标记；查看未来日期后出现可约时段。</td><td>已有前台时段交互可参考；后台是否能防并发冲突无法从页面判断，我们需要明确实现。</td></tr>
+<tr><td>医院选择</td><td>城市、关键词搜索，数据细化到医院院区。</td><td>医院和院区分开建模，订单必须保存具体院区、地址及集合点。</td></tr>
+<tr><td>预约成员</td><td>姓名、性别、出生日期、联系电话、紧急联系人及电话、关系标签。</td><td>一个账号可管理多位就诊人；订单保存当时信息，后续改资料不覆盖历史订单。</td></tr>
+<tr><td>订单</td><td>此前看到“已预约、待服务、服务中、待评价、全部”，列表为空。</td><td>我们的流程额外需要“待审核、待人员确认”；不能从参考标签推断其真实后台状态机。</td></tr>
+<tr><td>消息</td><td>平台通知、互动消息；互动消息页面为空。</td><td>尚未验证真实会话、附件、离线通知。我们的 IM 需要单独做跨端验证。</td></tr>
+<tr><td>个人中心</td><td>会员、我的服务、订单、成员、优惠券、就医档案，以及积分、关注、地址、开票、邀请、反馈和客服等入口。</td><td>第一版保留订单、成员、消息、客服和必要设置；会员营销与扩展档案后续再做。</td></tr>
+</tbody></table>
+<p class="muted">调研边界：没有提交真实预约、发送消息、上传资料或付款；未进入管理员或服务人员后台；未验证完整订单详情、支付退款、地图实际展示、档案分析及案例详情。因此下文后台和状态规则是本项目的设计建议，并非对参考应用内部实现的描述。</p>
+
+<h2 id="scope">二 第一版范围与角色权限</h2>
+<table><thead><tr><th>角色</th><th>第一版页面和能力</th><th>关键限制</th></tr></thead><tbody>
+<tr><td>普通用户</td><td>登录；找人及筛选；人员详情；服务选择；预约成员；预约表单；订单列表与详情；取消／改期申请；订单沟通；评价。</td><td>只能访问本人创建的预约、成员和附件；不能直接改订单状态或价格。</td></tr>
+<tr><td>服务人员</td><td>工作台；资料；可服务院区和时段；待确认预约；接单／拒绝；待服务；开始服务；提交完成；订单沟通。</td><td>只处理分配给自己的预约；接单前只看判断能否服务所需的最少信息。</td></tr>
+<tr><td>管理员</td><td>网页后台；人员审核；预约审核；服务与价格；医院院区；订单异常；评价与反馈；操作记录。</td><td>审核、取消、调整必须记录原因和操作者；敏感资料访问需授权并留痕。</td></tr>
+</tbody></table>
+<p>同一账号可同时拥有普通用户和已审核服务人员身份，通过工作台切换。管理员权限由后台授予；手机号或前端角色开关都不能自行产生管理员权限。第一版服务人员可由管理员邀请并录入，公开申请入驻可后续开放。</p>
+<p><strong>后续阶段：</strong>医院代办、跨天照护、优惠券、会员、次数套餐、积分、邀请、礼品卡、复杂开票对接、OCR 挂号资料导入。就医档案中的风险图谱和用药分析是独立产品能力，暂不纳入预约平台的首版工作量。</p>
+
+<h2 id="flow">三 预约与审核规则</h2>
+<p>已确认：用户先选人员并预约，管理员审核通过后，再由该服务人员确认。建议产品使用“提交预约申请”，避免让用户误以为提交即确定履约。</p>
+<div class="flow"><span>选择人员与时段</span><b>→</b><span>待审核</span><b>→</b><span>待人员确认</span><b>→</b><span>预约成功</span><b>→</b><span>服务中</span><b>→</b><span>待用户确认</span><b>→</b><span>已完成／待评价</span></div>
+<table><thead><tr><th>情形</th><th>建议处理</th></tr></thead><tbody>
+<tr><td>管理员审核</td><td>检查资料完整、服务范围、院区、时段与人员匹配；可通过、要求补充或驳回，附原因。业务审核不作医疗诊断。</td></tr>
+<tr><td>待审核占用</td><td>建议先作为申请队列，不承诺锁定资源；提交页明确预约需审核。管理员通过时事务内再次校验并锁定完整服务区间。</td></tr>
+<tr><td>人员确认超时</td><td>为待确认状态设置可配置期限；超时或拒绝后释放占用并通知用户。阈值应按运营时段确定，不能默认全天有人审核。</td></tr>
+<tr><td>多人预约同一时段</td><td>所有状态变化走后端，数据库保证同一人员有效占用区间不重叠。4小时服务需检查整个区间及交通缓冲，不只检查开始小时。</td></tr>
+<tr><td>更换服务人员</td><td>管理员可推荐替代人选，用户确认后重新走必要审核；不得静默替换用户选中的人员。</td></tr>
+<tr><td>改期</td><td>新时段重新校验和确认，原时段在改期成功前保留；事务成功后切换占用，失败仍保留原预约。</td></tr>
+<tr><td>取消</td><td>按当前状态处理，并释放时间占用；涉及已付款订单时退款状态单独跟踪。取消规则在预约前展示。</td></tr>
+<tr><td>履约</td><td>服务人员可在允许的时间窗内开始服务；完成后填写简短服务记录，用户确认。异常由管理员处理并留痕。</td></tr>
+<tr><td>评价</td><td>仅已完成订单可评价，一单一次；投诉和评价分开，避免用评价流程代替异常处理。</td></tr>
+</tbody></table>
+<p><strong>支付尚未决定：</strong>预约、支付和服务人员结算分别建模。内部试用可用测试支付适配器；生产收费前必须确定收款主体、价格、退款和结算方式。可优先评估“审核及人员确认后，在限定时间内付款”的方案；若选择先付款，则必须完整实现拒绝、超时和取消后的退款。此处不是已确认的商业规则。</p>
+<p>需要分别考虑“用户向平台付款”和“平台向服务人员结算”。第一版可支持管理员核对结算台账并人工处理已确认的结算流程；不宜同时引入余额钱包、自动分账和提现系统。</p>
+
+<h2 id="architecture">四 单人开发的技术方案</h2>
+<table><thead><tr><th>部分</th><th>建议</th><th>理由和范围</th></tr></thead><tbody>
+<tr><td>小程序与 App</td><td>uni-app + Vue 3 + TypeScript + Pinia</td><td>用户与服务人员共用一个工程，复用业务组件；登录、通知、地图和支付集中适配。先使用标准 uni-app，插件验证后锁定版本。</td></tr>
+<tr><td>管理后台</td><td>Vue 3 + Vite + TypeScript + Element Plus</td><td>桌面表格、筛选和审核操作适合网页后台；与移动端共享接口类型，不强求复用所有界面组件。</td></tr>
+<tr><td>后端</td><td>NestJS 模块化单体 + REST + OpenAPI</td><td>统一 TypeScript，便于单人维护；账户、人员、预约、履约、消息、支付模块边界清晰。已有熟悉后端技术时可沿用。</td></tr>
+<tr><td>数据库</td><td>PostgreSQL；选择单一 ORM 并锁定版本</td><td>保存用户、服务、订单和审计；时间区间排斥约束可支持防重复预约。ORM 无法表达的约束通过可审查 SQL 迁移维护。</td></tr>
+<tr><td>附件</td><td>私有对象存储</td><td>通过业务接口校验访问权限，发短时有效访问地址；开发数据和生产数据隔离。</td></tr>
+<tr><td>聊天</td><td>腾讯云 IM 作为优先验证候选</td><td>验证文字、图片、历史消息、重连及跨端互通；同一环境三端使用同一 IM 应用，测试与生产分开。</td></tr>
+<tr><td>地图</td><td>uni-app 基础地图能力 + 平台适配</td><td>第一版医院位置、集合点、打开导航；按供应商配置密钥并核实商用条件。医院坐标统一约定，拒绝定位后可手动选城市。</td></tr>
+<tr><td>部署</td><td>单个后端服务、数据库、对象存储、HTTPS</td><td>测试与生产隔离，备份、日志和错误告警先到位。任务量增加后再引入专用队列或缓存。</td></tr>
+</tbody></table>
+<pre>同一代码仓库
+  apps/mobile      用户端与服务人员端 uni-app
+  apps/admin       管理后台 Vue
+  apps/api         业务后端 NestJS
+  packages/contracts  接口类型与共享常量
+  docs             需求、状态转换、接口和验收说明
+
+小程序 / Android / 后续 iOS / 管理后台
+                   ↓ 业务 API
+            账户 · 预约 · 履约 · 结算记录
+                   ↓
+          数据库 · 私有附件 · IM · 通知 · 支付渠道</pre>
+<p>推荐以“一个完整功能”推进：接口、权限、页面和验收一起完成。例如先实现用户预约及管理员审核，再增加人员确认；避免一次生成全部页面后才连接真实数据。</p>
+<p>官方能力依据：<a href="https://uniapp.dcloud.net.cn/tutorial/typescript-subject.html">uni-app TypeScript 支持</a>；<a href="https://cloud.tencent.com/document/product/269/117335">IM 小程序与 uni-app 集成</a>；<a href="https://docs.nestjs.com/openapi/introduction">NestJS OpenAPI</a>；<a href="https://www.postgresql.org/docs/18/rangetypes.html">PostgreSQL 时间范围与排斥约束</a>。具体依赖组合仍以首阶段实机验证结果为准。</p>
+
+<h2 id="data">五 数据与接口的准备</h2>
+<table><thead><tr><th>数据组</th><th>关键对象</th><th>必须保留的关系</th></tr></thead><tbody>
+<tr><td>账号与人员</td><td>users、identities、roles、worker_profiles、worker_reviews</td><td>业务用户 ID 与微信等登录身份分离；资料审核后才能接单。</td></tr>
+<tr><td>成员与位置</td><td>patients、cities、hospitals、campuses</td><td>就诊人归属预约账号；院区关联医院；订单保存就诊人及院区快照。</td></tr>
+<tr><td>服务与排班</td><td>services、worker_services、availability、schedule_blocks</td><td>人员可提供的项目、医院和时段相互匹配；有效占用区间不能重叠。</td></tr>
+<tr><td>预约与履约</td><td>orders、order_events、assignments、service_records、reviews</td><td>每次审核、接单、改期和取消形成记录；订单保留价格和服务描述快照。</td></tr>
+<tr><td>沟通与附件</td><td>conversation_links、attachments、notifications</td><td>会话关联参与者和业务关系；订单卡片包含订单 ID；附件需校验所属订单权限。</td></tr>
+<tr><td>收款与结算</td><td>payment_attempts、refunds、settlement_records</td><td>业务订单不等于支付单；同一订单可有多次支付尝试，退款和人员结算单独记录。</td></tr>
+</tbody></table>
+<p>接口先围绕真实动作设计：查人员和时段、获取服务报价、提交预约、管理员审核、人员接受／拒绝、取消、改期、开始服务、提交完成、用户确认、评价。每个动作写明允许角色、前置状态、失败原因、幂等规则和审计事件。</p>
+<p>金额统一用最小货币单位的整数；预约时间保存完整日期和时区语义；服务时长不能只写在页面标题。服务端生成报价，前端提交报价标识，由后端再次核对，防止价格或时段被篡改。</p>
+
+<h2>六 聊天 通知与资料访问</h2>
+<p>第一版聊天可在服务人员接单后开放，用户与该人员使用一对一会话；同一双方多次预约时通过订单卡片区分业务。若以后需要严格按订单隔离记录，再评估私有会话实现。预约前咨询先由平台客服承接，是否开放直接咨询服务人员仍可调整。</p>
+<p>IM 负责消息传输，业务后端决定双方是否允许沟通；密钥和 IM 登录签名在服务端产生。不能只隐藏聊天按钮来限制访问。文字和普通图片作为首版范围；病情附件优先通过有权限控制的订单资料入口查看。</p>
+<p>订单状态通知保存在自己的业务数据库，并可重试发送。小程序订阅通知受平台能力及用户授权约束；Android、后续 iOS 需要各自的 App 推送配置。通知失败不能回滚已经成功的订单状态，后台应能看到待处理异常。<a href="https://cloud.tencent.com/document/product/269/103522">腾讯云 uni-app 离线推送文档</a>。</p>
+<p>资料访问建议：管理员按职责访问；待接单人员仅看服务时间、院区和必要需求；接单后看该订单必要联系方式与资料。公共人员页面不展示服务人员精确实时位置。日志避免记录完整病情、电话或访问令牌。</p>
+
+<h2 id="plan">七 分阶段开发计划</h2>
+<p><strong>已确认投入：</strong>零基础，单人，每周约30小时，使用 AI 辅助。建议以约24至28周、720至840小时作为小范围试运营的初始预算，包含学习、开发、调试与试用缓冲。这是范围估算，不是交付承诺；复杂支付、功能增加或平台材料准备延期需要重新估算，商店审核等待不包含在开发工时内。前3至5周先得到可演示原型和关键技术样例，原型完成不代表生产系统完成。</p>
+<table><thead><tr><th>阶段</th><th>预计安排</th><th>交付及完成标准</th></tr></thead><tbody>
+<tr><td>0 基础与原型</td><td>第1至3周</td><td>学习必需的 JavaScript／TypeScript、Vue、Git 和接口概念；冻结首版范围；完成核心原型；能运行、修改并回退一个简单页面。</td></tr>
+<tr><td>1 技术验证与工程</td><td>第4至5周</td><td>小程序与 Android 实机运行；登录、IM 互发、地图、私有附件验证；检查 iOS 插件并安排构建验证；仓库与测试环境建立。</td></tr>
+<tr><td>2 账户与服务目录</td><td>第6至8周</td><td>人员审核、院区、服务价格和排班后台；用户可搜索人员、看详情、管理预约成员。</td></tr>
+<tr><td>3 预约及审核</td><td>第9至12周</td><td>提交预约、管理员审核、人员接受／拒绝；防重复请求和时间冲突；用户可跟踪真实状态。</td></tr>
+<tr><td>4 履约及异常</td><td>第13至15周</td><td>开始服务、完成确认、评价；取消、改期、超时、重选人员；操作历史可追溯。</td></tr>
+<tr><td>5 沟通与通知</td><td>第16至18周</td><td>IM、订单卡片、历史消息、断线恢复；通知记录和 App 推送；地图导航与附件权限完成。</td></tr>
+<tr><td>6 收费与验收</td><td>第19至21周</td><td>若已确定收费形态，接入首个渠道并验证退款、重复回调和对账；否则完成非收费试用版本。完成权限与并发测试、运营手册、备份和发布材料。</td></tr>
+<tr><td>7 小范围试用</td><td>第22至24周</td><td>用户和少量服务人员试用；修复阻断问题；验证恢复备份与发布回滚；达到验收条件后扩大使用。</td></tr>
+<tr><td>8 缓冲</td><td>第25至28周</td><td>用于零基础排错、SDK 差异、需求澄清和验收返工；未使用的缓冲不自动替换成新功能。</td></tr>
+</tbody></table>
+<p>iOS 从技术验证阶段就检查插件并安排构建验证，业务页面开发时兼顾适配；正式上线可在 Android 流程稳定后独立安排，按当前经验水平另预留约3至6周适配和发布准备缓冲。该区间仍取决于设备、原生插件、登录及支付方案，不包含不确定的商店审核时间。若前期暂缺 iPhone 或构建资源，应记录为未验证项，不能宣称三端验证通过。</p>
+<p>按固定工时而非“AI 写代码速度”估算：总时间还包含需求决策、SDK 接入、实机排错、验收与运营准备。每周以能演示的完整流程作为进度依据，不以页面数量或代码行数作为完成标准。</p>
+
+<h2 id="acceptance">八 必须通过的验收场景</h2>
+<ol>
+<li>用户选择人员、院区、时段和就诊人后提交；管理员通过；对应人员接单；三方看到一致状态。</li>
+<li>两笔预约竞争同一人员重叠时段，只能有一个有效占用；服务时长和交通缓冲也计入冲突。</li>
+<li>用户连续点击提交或网络重试，不生成重复订单；重复审核和接单请求不重复产生副作用。</li>
+<li>驳回、人员拒绝及超时有明确提示；时间占用正确释放；更换人员必须得到用户确认。</li>
+<li>改期失败仍保留原预约；改期成功后旧时间释放、新时间占用。</li>
+<li>普通用户、其他服务人员无法读取不属于自己的订单、成员和附件。</li>
+<li>IM 断线恢复、历史消息、图片失败重试和多端未读表现可用；通知失败不丢失业务状态。</li>
+<li>定位拒绝、权限取消、无网络和服务器错误均可恢复，用户仍可手动选择院区。</li>
+<li>支付上线时，验证签名、金额、订单身份、重复及乱序回调、退款失败与重试；前端“支付成功”不能直接发放权益。</li>
+<li>数据备份实际恢复成功；关键异常能定位到请求和订单，日志不暴露敏感资料。</li>
+</ol>
+
+<h2>九 开发方式与 AI 协作</h2>
+<p><strong>每周30小时建议分配：</strong>8小时学习与理解当前模块，14小时跟随计划实现，6小时实机测试及排错，2小时记录问题与整理版本。随着熟练度提高，将部分学习时间转为开发；保留测试和回顾时间。</p>
+<p>学习顺序围绕项目：先掌握变量、对象、数组、函数和异步请求，再理解 Vue 页面与状态、HTTP 接口、数据库和权限。每完成一个模块，应能说清数据来自哪里、谁可以修改、失败怎么恢复，以及如何回退到上一个可运行版本。</p>
+<p>每次开发一个可验收的小功能。先写用户故事、允许角色、接口和验收场景，再让 AI 实现，人工检查差异并运行验证，最后提交 Git。每次数据库变更保留迁移脚本，依赖更新单独处理并记录版本。</p>
+<p>适合交给 AI 的工作包括页面骨架、接口实现草稿、测试用例、文档和重复结构。订单状态、资源锁定、权限、支付回调和敏感资料访问必须重点审查；这些逻辑应有自动化测试。页面样式和简单可逆调整以人工检查为主。</p>
+<p>项目内持续维护四份简短事实来源：需求范围、状态转换表、接口契约、验收清单。每次规则改变先更新约定，再改代码，避免不同页面对同一个订单产生不同解释。</p>
+
+<h2 id="next">十 近期准备与仍需决定的事项</h2>
+<table><thead><tr><th>优先级</th><th>准备事项</th><th>完成标志</th></tr></thead><tbody>
+<tr><td>本周</td><td>确定首发城市、院区范围、首版服务项目、服务时长和目标人员数量。</td><td>形成小而明确的服务清单及测试样例。</td></tr>
+<tr><td>本周</td><td>确定审核运营时段、人员确认期限、最短提前预约时间、改期及取消规则。</td><td>每个异常流程都有明确处理人和状态。</td></tr>
+<tr><td>本周</td><td>准备开发账号、代码仓库、微信测试配置、Android 设备；核实 iOS 构建及真机资源。</td><td>能够运行最小工程；密钥通过环境配置管理。</td></tr>
+<tr><td>第4至5周</td><td>创建开发专用 IM、对象存储和地图配置，验证三项关键集成。</td><td>形成可复现的技术样例；测试数据为虚构信息。</td></tr>
+<tr><td>收费开发前</td><td>确定收款主体、付款节点、定价、退款及人员结算；核实发布所需平台材料。</td><td>形成支付和结算流程，才进入生产收费实现。</td></tr>
+<tr><td>扩大试运营前</td><td>确定谁负责审核、客服和异常处理；建立备份恢复及故障处理流程。</td><td>有人按时处理预约和异常，系统可恢复。</td></tr>
+</tbody></table>
+<div class="callout"><strong>下一份具体交付应是首版需求规格与原型：</strong>人员列表、人员详情、预约表单、用户订单详情、管理员审核、人员接单和履约这七个核心界面，配套订单状态转换表。完成后再开始业务编码。</div>
+<p>需要预算的资源类别包括：服务器与数据库、对象存储和流量、IM 套餐、地图商用服务、短信或推送、域名与平台开发者账号、测试设备。先使用开发环境进行小规模验证；正式采购前按实际用量和当时官方价格确认，不将免费额度作为长期成本承诺。</p>
+<p class="muted">本计划中的技术组合、范围和排期为针对当前需求的建议。已确认的产品约束为：普通用户／管理员／服务人员三类角色，用户选人预约，管理员审核后人员确认，零基础单人借助 AI 开发，每周30小时，首发小程序与 Android，后续兼顾 iOS，暂不开发音视频，支付形态未确定。</p>
+</main></body></html>

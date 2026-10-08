@@ -1,0 +1,10 @@
+{
+  "folders": [
+    { "name": "应用工程", "path": "app" },
+    { "name": "规划与文档", "path": "docs" }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "${workspaceFolder:应用工程}",
+    "files.encoding": "utf8"
+  }
+}

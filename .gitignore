@@ -1,0 +1,28 @@
+# Dependencies and generated files
+node_modules/
+dist/
+unpackage/
+coverage/
+*.tsbuildinfo
+*.log
+
+# Local environment and signing material
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.mobileprovision
+
+# Downloaded reference checkout is kept locally
+/references/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
